@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.util.Vector;
 
 public class SuperComboBox extends JComboBox {
-   // MainView mv = new MainView();
+
     private static Vector<String> words = new Vector<>();
 
     public static Vector<String> getWords() {
@@ -18,6 +18,7 @@ public class SuperComboBox extends JComboBox {
         words.add("345771");
         return words;
     }
+    public SuperComboBox(){}
     public SuperComboBox(Vector<String> words){
         super(words);
         setEditable(true);
@@ -49,6 +50,8 @@ public class SuperComboBox extends JComboBox {
             this.comp = comp;
             comp.setDocument(this);
         }
+
+
 
         @Override
         public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -105,4 +108,5 @@ public class SuperComboBox extends JComboBox {
         }
 
     }
+
 }

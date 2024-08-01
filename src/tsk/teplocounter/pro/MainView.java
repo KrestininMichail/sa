@@ -16,18 +16,20 @@ import java.awt.event.ItemListener;
 public class MainView extends JFrame {
 
     ComPorts cp = new ComPorts();
-
+    private Requests requests = new Requests();
     private Font font = new Font(null, 1, 16);
     private JPanel tabSA = new JPanel();
     private JPanel tabVIST = new JPanel();
     private JPanel comPortPanel = new JPanel();
-    //private JPanel superComboBoxPanel = new JPanel(new BorderLayout());
+
     private JPanel superComboBoxPanel = new JPanel(new GridLayout(1,0,0,5));
     private JPanel baudRatePanel = new JPanel(new GridLayout(1,0,0,5));
     private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
     private JButton connectSA = new JButton("Соединиться");
-    private JLabel numberCount = new JLabel("Номер теплосчётчика");
-    private SuperComboBox superComboBox = new SuperComboBox(SuperComboBox.getWords());
+    private JLabel status = new JLabel("Введите номер теплосчётчика и нажмите кнопку \"Соединиться\"");
+    private JPanel view = new JPanel(new FlowLayout());
+    private JPanel view_connectSA = new JPanel(new FlowLayout());
+    private static SuperComboBox superComboBox = new SuperComboBox(SuperComboBox.getWords());
 
 
 
@@ -57,6 +59,8 @@ public class MainView extends JFrame {
         connectSA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                status.setText("Соединение...");
+                requests.connect();
                 System.out.println(ComPorts.getBautRate());
                 System.out.println(ComPorts.getPortName());
 
@@ -70,11 +74,14 @@ public class MainView extends JFrame {
         });
 
         tabbedPane.addTab("<html><font size =4>SA-94", tabSA);
-        tabSA.setLayout(new FlowLayout());
-        tabSA.add(superComboBoxPanel);
-        tabSA.add(comPortPanel);
-        tabSA.add(baudRatePanel);
-        tabSA.add(connectSA);
+        tabSA.setLayout(new BorderLayout());
+        view.add(superComboBoxPanel);
+        view.add(comPortPanel);
+        view.add(baudRatePanel);
+        view_connectSA.add(connectSA);
+        tabSA.add(view,BorderLayout.NORTH);
+        tabSA.add(view_connectSA,BorderLayout.CENTER);
+        tabSA.add(status, BorderLayout.SOUTH);
 
 
         tabbedPane.addTab("ВИС.Т", tabVIST);
@@ -125,6 +132,7 @@ public class MainView extends JFrame {
         }
     }
 
+
     private void comPortBaudRate() {
 
         ButtonGroup bg = new ButtonGroup();
@@ -156,6 +164,9 @@ public class MainView extends JFrame {
             }
         });
 
+    }
+    public static String getTextSuperComboBox(){
+        return superComboBox.getSelectedItem().toString();
     }
 
     public static void main(String[] args) {
