@@ -1,6 +1,7 @@
 package tsk.teplocounter.pro;
 
 import jssc.SerialPortException;
+import tsk.teplocounter.pro.tsk.teplocounter.pro.SuperComboBox;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -13,26 +14,38 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class MainView extends JFrame {
+    @Override
+    public Font getFont() {
+        return font;
+    }
+
     ComPorts cp = new ComPorts();
 
+    private Font font = new Font(null, 1, 16);
     private JPanel tabSA = new JPanel();
     private JPanel tabVIST = new JPanel();
     private JPanel comPortPanel = new JPanel();
     private JPanel baudRaute = new JPanel(new GridLayout(1,0,0,5));
     private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
     private JButton connectSA = new JButton("Соединиться");
+    private SuperComboBox superComboBox = new SuperComboBox(SuperComboBox.getWords());
+
 
 
 
     public MainView(){
         super("Программа для съёма показаний теплосчётчиков");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         comPortPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        comPortPanel.setBorder(new CompoundBorder(new TitledBorder("Настройки COM-порта"), new EmptyBorder(30,30,30,30)));
+        TitledBorder tl = new TitledBorder("Настройки COM-порта");
+        tl.setTitleFont(font);
+        comPortPanel.setBorder(new CompoundBorder(tl, new EmptyBorder(30,30,30,30)));
 
         comPortButtons();
         comPortBaudRate();
 
+        connectSA.setFont(font);
         connectSA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,12 +61,13 @@ public class MainView extends JFrame {
             }
         });
 
-        tabbedPane.addTab("SA-94", tabSA);
+        tabbedPane.addTab("<html><font size =4>SA-94", tabSA);
         tabSA.setLayout(new FlowLayout());
-
+        tabSA.add(superComboBox);
         tabSA.add(comPortPanel);
         tabSA.add(baudRaute);
         tabSA.add(connectSA);
+
 
         tabbedPane.addTab("ВИС.Т", tabVIST);
 
@@ -74,6 +88,7 @@ public class MainView extends JFrame {
             if(i == 0){
                 ToggleCOM tc = new ToggleCOM();
                 tbs[i] = new JToggleButton(comports[i], true);
+                tbs[i].setFont(font);
                 tbs[i].addActionListener(tc);
                 bg.add(tbs[i]);
                 comPortPanel.add(tbs[i]);
@@ -87,6 +102,7 @@ public class MainView extends JFrame {
             ToggleCOM tc = new ToggleCOM();
             tbs[i] = new JToggleButton(comports[i], false);
             tbs[i].addActionListener(tc);
+            tbs[i].setFont(font);
             bg.add(tbs[i]);
             comPortPanel.add(tbs[i]);
 
@@ -101,10 +117,10 @@ public class MainView extends JFrame {
     }
 
     private void comPortBaudRate() {
-        baudRaute.setBorder(BorderFactory.createTitledBorder("Скорость, бод"));
+        baudRaute.setBorder(BorderFactory.createTitledBorder("<html><font size =3>Скорость, бод"));
         ButtonGroup bg = new ButtonGroup();
-        JRadioButton jrb2400 = new JRadioButton("2400", false);
-        JRadioButton jrb4800 = new JRadioButton("4800", true);
+        JRadioButton jrb2400 = new JRadioButton("<html><font size =4>2400", false);
+        JRadioButton jrb4800 = new JRadioButton("<html><font size =4>4800", true);
         ComPorts.setBaudRate(4800);
         bg.add(jrb2400);
         bg.add(jrb4800);
