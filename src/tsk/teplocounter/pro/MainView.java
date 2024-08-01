@@ -1,7 +1,7 @@
 package tsk.teplocounter.pro;
 
 import jssc.SerialPortException;
-import tsk.teplocounter.pro.tsk.teplocounter.pro.SuperComboBox;
+
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -14,10 +14,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class MainView extends JFrame {
-    @Override
-    public Font getFont() {
-        return font;
-    }
 
     ComPorts cp = new ComPorts();
 
@@ -25,9 +21,12 @@ public class MainView extends JFrame {
     private JPanel tabSA = new JPanel();
     private JPanel tabVIST = new JPanel();
     private JPanel comPortPanel = new JPanel();
-    private JPanel baudRaute = new JPanel(new GridLayout(1,0,0,5));
+    //private JPanel superComboBoxPanel = new JPanel(new BorderLayout());
+    private JPanel superComboBoxPanel = new JPanel(new GridLayout(1,0,0,5));
+    private JPanel baudRatePanel = new JPanel(new GridLayout(1,0,0,5));
     private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
     private JButton connectSA = new JButton("Соединиться");
+    private JLabel numberCount = new JLabel("Номер теплосчётчика");
     private SuperComboBox superComboBox = new SuperComboBox(SuperComboBox.getWords());
 
 
@@ -38,9 +37,18 @@ public class MainView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         comPortPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        TitledBorder tl = new TitledBorder("Настройки COM-порта");
-        tl.setTitleFont(font);
-        comPortPanel.setBorder(new CompoundBorder(tl, new EmptyBorder(30,30,30,30)));
+        TitledBorder tl_comPortPanel = new TitledBorder("<html><font size =3>Настройки COM-порта");
+        comPortPanel.setBorder(new CompoundBorder(tl_comPortPanel, new EmptyBorder(40,20,10,20)));
+
+        TitledBorder tl_baudRatePanel = new TitledBorder("<html><font size =3>Скорость");
+        baudRatePanel.setBorder(new CompoundBorder(tl_baudRatePanel, new EmptyBorder(40,20,20,20)));
+
+        superComboBox.setFont(font);
+        TitledBorder tl_numberCount = new TitledBorder("<html><font size =3>Номер теплосчётчика");
+        superComboBoxPanel.setBorder(new CompoundBorder(tl_numberCount, new EmptyBorder(40,20,10,20)));
+
+        superComboBoxPanel.add(superComboBox);
+
 
         comPortButtons();
         comPortBaudRate();
@@ -63,9 +71,9 @@ public class MainView extends JFrame {
 
         tabbedPane.addTab("<html><font size =4>SA-94", tabSA);
         tabSA.setLayout(new FlowLayout());
-        tabSA.add(superComboBox);
+        tabSA.add(superComboBoxPanel);
         tabSA.add(comPortPanel);
-        tabSA.add(baudRaute);
+        tabSA.add(baudRatePanel);
         tabSA.add(connectSA);
 
 
@@ -106,6 +114,7 @@ public class MainView extends JFrame {
             bg.add(tbs[i]);
             comPortPanel.add(tbs[i]);
 
+
         }
     }
 
@@ -117,15 +126,16 @@ public class MainView extends JFrame {
     }
 
     private void comPortBaudRate() {
-        baudRaute.setBorder(BorderFactory.createTitledBorder("<html><font size =3>Скорость, бод"));
+
         ButtonGroup bg = new ButtonGroup();
         JRadioButton jrb2400 = new JRadioButton("<html><font size =4>2400", false);
         JRadioButton jrb4800 = new JRadioButton("<html><font size =4>4800", true);
         ComPorts.setBaudRate(4800);
         bg.add(jrb2400);
         bg.add(jrb4800);
-        baudRaute.add(jrb2400);
-        baudRaute.add(jrb4800);
+        baudRatePanel.add(jrb2400);
+        baudRatePanel.add(jrb4800);
+
         jrb2400.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {

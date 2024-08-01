@@ -1,6 +1,5 @@
 package tsk.teplocounter.pro;
 
-import jssc.*;
 import jssc.SerialPortList;
 import jssc.SerialPort;
 import jssc.SerialPortException;
