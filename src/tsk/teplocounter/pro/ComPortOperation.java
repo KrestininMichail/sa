@@ -9,7 +9,11 @@ public class ComPorts {
     private static int baudRate;
     private static String portName;
 
+    private static String number;
 
+    public static String returnNumber(){
+        return  MainView.getTextSuperComboBox();
+    }
    public static void setPortName(String pn){
         portName = pn;
     }
@@ -29,6 +33,7 @@ public class ComPorts {
     }
 
     public static void connect(String port, int baud) throws SerialPortException{
+        System.out.println(returnNumber());
         serialPort = new SerialPort(port);
         serialPort.openPort();
         serialPort.setParams(baudRate,
