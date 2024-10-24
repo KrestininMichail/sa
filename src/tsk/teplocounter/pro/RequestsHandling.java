@@ -1,8 +1,12 @@
 package tsk.teplocounter.pro;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RequestsHandling {
     //commands to teplocounter
-    int stopbyte = 0b11111111;
+    public static final int STOPBYTE = 0b11111111;
     int q1 = 0b10000000; // flow rate in the first pipe
     int q2 = 0b10000001; // flow rate in the second pipe
     int t1 = 0b10000010; // temperature in the first pipe
@@ -16,6 +20,27 @@ public class RequestsHandling {
     int t  = 0b10001010; // time
     int d  = 0b10001011; // date
     int h  = 0b10001100; // teplocount time of work in <Work> and <Cont> mode
+
+
+    static Map<String, Integer> requestParameters = new HashMap<>();
+
+    public static void populateMap(){
+        requestParameters.put("Q1", 0b10000000); // flow rate in the first pipe
+        requestParameters.put("Q2", 0b10000001); // flow rate in the second pipe
+        requestParameters.put("t1", 0b10000010); // temperature in the first pipe
+        requestParameters.put("t2", 0b10000011); // temperature in the second pipe
+        requestParameters.put("t3", 0b10000100); // temperature in the third pipe
+        requestParameters.put("dt", 0b10000101); // difference between temperatures
+        requestParameters.put("P", 0b10000110);  // thermal power consumption
+        requestParameters.put("E", 0b10000111);  // amount of heat
+        requestParameters.put("V1", 0b10001000); // volume in the first pipe
+        requestParameters.put("V2", 0b10001001); // volume in the second pipe
+        requestParameters.put("t", 0b10001010);  // time
+        requestParameters.put("d", 0b10001011);  // date
+        requestParameters.put("h", 0b10001100);  // teplocount time of work in <Work> and <Cont> mode
+    }
+
+
 
 
     public static int[] serialNumber(int number){
@@ -32,5 +57,13 @@ public class RequestsHandling {
         int[] reqNumber = {firstByte, secondByte, thirdByte};
         return reqNumber;
     }
+
+    public void anylyzeSA(ArrayList<Integer> saParam){
+        int firstbit = saParam.get(0);
+        String firstbitString = String.format("%5s", Integer.toBinaryString(firstbit).replace(' ', '0'));
+
+    }
+
+
 
 }

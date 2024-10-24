@@ -12,13 +12,17 @@ public class SuperComboBox extends JComboBox {
     private static Vector<String> words = new Vector<>();
 
     public static Vector<String> getWords() {
-        words.add("012456");
+        words.add("012456");  //TODO remove samples
         words.add("222222");
         words.add("345543");
         words.add("345771");
         return words;
     }
-    public SuperComboBox(){}
+
+    public static void setWords(String number){
+        words.add(number); //TODO add a number of count which reading was complete to a 'words'
+    }
+
     public SuperComboBox(Vector<String> words){
         super(words);
         setEditable(true);
